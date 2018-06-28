@@ -61,7 +61,7 @@ test("ondestroy", done => {
         ])
       : h("ul", {}, [h("li")])
 
-  let node = render(node, view(true), document.body)
+  let node = render(null, view(true), document.body)
   render(node, view(false), document.body)
 })
 

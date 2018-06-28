@@ -277,3 +277,34 @@ test("event handlers", done => {
     document.body
   )
 })
+
+test("skip equal nodes", () => {
+  const node = h("h1", {}, "foo")
+
+  render(node, node, document.body)
+
+  expect(document.body.innerHTML).toBe("")
+})
+
+test("skip null and Boolean children", () => {
+  expect(h("div", {}, true).children).toEqual([])
+  expect(h("div", {}, false).children).toEqual([])
+  expect(h("div", {}, null).children).toEqual([])
+})
+
+test("name as a function (JSX functional components)", () => {
+  const expected = h("div", { key: "key" }, ["foo", "bar"])
+
+  const Title = props =>
+    h(
+      "div",
+      {
+        key: props.key,
+        children: "foo"
+      },
+      props.children
+    )
+
+  expect(h(Title, { key: "key" }, "bar")).toEqual(expected)
+  // <Title key="key">foo</Title>
+})
